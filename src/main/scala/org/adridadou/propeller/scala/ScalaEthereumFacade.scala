@@ -1,6 +1,5 @@
 package org.adridadou.propeller.scala
 
-
 import org.adridadou.ethereum.propeller.EthereumFacade
 import org.adridadou.ethereum.propeller.solidity.{SolidityContractDetails, SolidityEvent}
 import org.adridadou.ethereum.propeller.swarm.SwarmHash
