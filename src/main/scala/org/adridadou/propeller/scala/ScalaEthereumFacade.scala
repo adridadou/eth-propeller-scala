@@ -15,6 +15,7 @@ import scala.concurrent.Future
   * This code is released under Apache 2 license
   */
 class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter) {
+  def createContractProxy[T](abi: EthAbi, address: EthAddress, key: EthAccount, clazz: Class[T]):T = facade.createContractProxy(abi, address, key, clazz)
   def createContractProxy[T](contract: SolidityContractDetails, address: EthAddress, key: EthAccount, clazz: Class[T]):T = facade.createContractProxy(contract, address, key, clazz)
   def createContractProxy[T](address: EthAddress, account: EthAccount, contractInterface: Class[T]): T = facade.createContractProxy(address, account, contractInterface)
 
