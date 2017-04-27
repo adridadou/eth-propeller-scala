@@ -1,6 +1,6 @@
 package org.adridadou.propeller.scala
 
-import org.adridadou.ethereum.propeller.event.{EthereumEventHandler, OnBlockParameters, OnTransactionParameters}
+import org.adridadou.ethereum.propeller.event.{BlockInfo, EthereumEventHandler, TransactionInfo}
 import rx.lang.scala.Observable
 
 import scala.concurrent.Future
@@ -15,8 +15,8 @@ case class ScalaEthereumEventHandler(handler:EthereumEventHandler, converter:Sca
 
   def currentBlockNumber:Long = handler.getCurrentBlockNumber
 
-  def observeBlocks: Observable[OnBlockParameters] = handler.observeBlocks()
+  def observeBlocks: Observable[BlockInfo] = handler.observeBlocks()
 
-  def observeTransactions: Observable[OnTransactionParameters] = handler.observeTransactions()
+  def observeTransactions: Observable[TransactionInfo] = handler.observeTransactions()
 
 }
