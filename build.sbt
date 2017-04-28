@@ -31,3 +31,5 @@ releaseCrossBuild := true
 crossScalaVersions := Seq("2.11.8", "2.12.1")
 
 publishTo := Some("Bintray" at "https://api.bintray.com/maven/cubefriendly/maven/eth-propeller-scala")
+
+credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
