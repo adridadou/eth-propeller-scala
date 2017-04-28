@@ -1,8 +1,13 @@
+import sbtrelease._
+import ReleaseStateTransformations._
+import sbt._
+import Keys._
+
 name := """eth-propeller-scala"""
 
 organization := "org.adridadou"
 
-scalaVersion := "2.11.8"
+scalaVersion := "2.12.1"
 
 resolvers ++= Seq(
   "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
@@ -21,3 +26,7 @@ libraryDependencies ++= Seq(
 )
 
 fork in run := true
+
+releaseCrossBuild := true
+
+crossScalaVersions := Seq("2.11.8", "2.12.1")
