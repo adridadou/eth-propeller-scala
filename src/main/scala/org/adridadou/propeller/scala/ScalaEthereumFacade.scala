@@ -8,6 +8,7 @@ import rx.lang.scala.Observable
 
 import scala.compat.java8.OptionConverters._
 import rx.lang.scala.JavaConversions._
+import scala.collection.JavaConverters._
 
 import scala.concurrent.Future
 import scala.reflect.ClassTag
@@ -27,6 +28,13 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def events():ScalaEthereumEventHandler = ScalaEthereumEventHandler(facade.events(), converter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
   def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode))
+  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = {
+    facade.getEventsAt(number, eventDefinition, address).asScala
+  }
+
+  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = {
+    facade.getEventsAt(hash, eventDefinition, address).asScala
+  }
 
   def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
