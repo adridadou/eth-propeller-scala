@@ -23,10 +23,12 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def createContractProxy[T](address: EthAddress, account: EthAccount)(implicit tag: ClassTag[T]): T = facade.createContractProxy(address, account, tag.runtimeClass.asInstanceOf[Class[T]])
 
   def findEventDefinition[T](contract: SolidityContractDetails, eventName: String)(implicit tag: ClassTag[T]): Option[SolidityEvent[T]] = facade.findEventDefinition(contract,eventName, tag.runtimeClass.asInstanceOf[Class[T]]).asScala
+  def findEventDefinition[T](abi: EthAbi, eventName: String)(implicit tag: ClassTag[T]): Option[SolidityEvent[T]] = facade.findEventDefinition(abi,eventName, tag.runtimeClass.asInstanceOf[Class[T]]).asScala
   def events():ScalaEthereumEventHandler = ScalaEthereumEventHandler(facade.events(), converter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
   def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode))
 
+  def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
   def publishMetadataToSwarm(contract: SolidityContractDetails): SwarmHash = facade.publishMetadataToSwarm(contract)
   def sendEther(fromAccount: EthAccount, to: EthAddress, value: EthValue): Future[EthExecutionResult] = converter.convert(facade.sendEther(fromAccount, to, value))
@@ -36,6 +38,7 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def getBalance(addr: EthAddress): EthValue = facade.getBalance(addr)
   def getBalance(account: EthAccount): EthValue = facade.getBalance(account.getAddress)
   def getNonce(address: EthAddress): Nonce = facade.getNonce(address)
+  def getCurrentBlockNumber: Long = facade.getCurrentBlockNumber
 
   def getCode(address: EthAddress): SmartContractByteCode = facade.getCode(address)
 
