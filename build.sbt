@@ -1,4 +1,3 @@
-import sbtrelease._
 import sbt._
 import Keys._
 
@@ -6,7 +5,7 @@ name := """eth-propeller-scala"""
 
 organization := "org.adridadou"
 
-scalaVersion := "2.12.1"
+scalaVersion := "2.11.8"
 
 resolvers ++= Seq(
   "Local Maven Repository" at "file://"+Path.userHome.absolutePath+"/.m2/repository",
@@ -16,7 +15,7 @@ resolvers ++= Seq(
 
 // Change this to another test framework if you prefer
 libraryDependencies ++= Seq(
-  "org.adridadou" % "eth-propeller-core" % "0.1",
+  "org.adridadou" % "eth-propeller-core" % "0.2",
   "io.reactivex" %% "rxscala" % "0.26.5",
   "org.scala-lang.modules" %% "scala-java8-compat" % "0.8.0",
   //Test libs
