@@ -5,6 +5,8 @@ name := """eth-propeller-scala"""
 
 organization := "org.adridadou"
 
+licenses += ("Apache-2.0", url("http://opensource.org/licenses/Apache-2.0"))
+
 scalaVersion := "2.12.2"
 
 resolvers ++= Seq(
