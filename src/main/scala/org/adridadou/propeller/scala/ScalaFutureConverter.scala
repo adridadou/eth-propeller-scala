@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.adridadou.ethereum.propeller.SmartContract
 import org.adridadou.ethereum.propeller.converters.future.FutureConverter
-import org.adridadou.ethereum.propeller.values.{CallDetails, Payable}
+import org.adridadou.ethereum.propeller.values.{CallDetails, EthCall, EthPayableCall, Payable}
 
 import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
@@ -16,19 +16,21 @@ import scala.concurrent.Future
   */
 class ScalaFutureConverter() extends FutureConverter{
 
+  private val scalaFutureConverter = new ScalaFutureConverter()
+
   def convert[T](completableFuture: CompletableFuture[T]): Future[T] = FutureConverters.toScala(completableFuture)
 
-  override def getPayable(smartContract: SmartContract, objects: Array[AnyRef], method: Method): ScalaPayable[AnyRef] = ScalaPayable(new Payable[AnyRef](smartContract, method, objects), new ScalaFutureConverter())
+  override def getPayable(smartContract: SmartContract, objects: Array[AnyRef], method: Method): ScalaPayable[AnyRef] = ScalaPayable(new Payable[AnyRef](smartContract, method, objects), scalaFutureConverter)
 
   override def isPayableType(aClass: Class[_]): Boolean = classOf[ScalaPayable[_]].equals(aClass)
 
   override def isFutureType(aClass: Class[_]): Boolean = classOf[Future[_]].equals(aClass)
 
-  override def isPayableTypeWithDetails(cls: Class[_]): Boolean = ???
+  override def isPayableTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthPayableCall[_]].equals(cls)
 
-  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): AnyRef = ???
+  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): ScalaEthCall[_] = ScalaEthCall(new EthCall(details.getTxHash, futureResult), scalaFutureConverter )
 
-  override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): AnyRef = ???
+  override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): ScalaEthPayableCall[_] = ScalaEthPayableCall(new EthPayableCall(smartContract, method, arguments), scalaFutureConverter)
 
-  override def isFutureTypeWithDetails(cls: Class[_]): Boolean = ???
+  override def isFutureTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthCall[_]].equals(cls)
 }
