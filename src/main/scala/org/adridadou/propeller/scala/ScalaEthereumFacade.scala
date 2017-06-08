@@ -29,13 +29,15 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
   def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode))
   def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = {
-    facade.getEventsAt(number, eventDefinition, address).asScala
+    facade.getEventsAtBlock(number, eventDefinition, address).asScala
   }
-
   def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = {
-    facade.getEventsAt(hash, eventDefinition, address).asScala
+    facade.getEventsAtBlock(hash, eventDefinition, address).asScala
   }
-
+  def getEventsAtTransaction[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = {
+    facade.getEventsAtTransaction(hash, eventDefinition, address).asScala
+  }
+  def getTransactionInfo(hash:EthHash):TransactionInfo = facade.getTransactionInfo(hash)
   def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
   def publishMetadataToSwarm(contract: SolidityContractDetails): SwarmHash = facade.publishMetadataToSwarm(contract)

@@ -16,11 +16,9 @@ import scala.concurrent.Future
   */
 class ScalaFutureConverter() extends FutureConverter{
 
-  private val scalaFutureConverter = new ScalaFutureConverter()
-
   def convert[T](completableFuture: CompletableFuture[T]): Future[T] = FutureConverters.toScala(completableFuture)
 
-  override def getPayable(smartContract: SmartContract, objects: Array[AnyRef], method: Method): ScalaPayable[AnyRef] = ScalaPayable(new Payable[AnyRef](smartContract, method, objects), scalaFutureConverter)
+  override def getPayable(smartContract: SmartContract, objects: Array[AnyRef], method: Method): ScalaPayable[AnyRef] = ScalaPayable(new Payable[AnyRef](smartContract, method, objects), this)
 
   override def isPayableType(aClass: Class[_]): Boolean = classOf[ScalaPayable[_]].equals(aClass)
 
@@ -28,9 +26,9 @@ class ScalaFutureConverter() extends FutureConverter{
 
   override def isPayableTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthPayableCall[_]].equals(cls)
 
-  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): ScalaEthCall[_] = ScalaEthCall(new EthCall(details.getTxHash, futureResult), scalaFutureConverter )
+  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): ScalaEthCall[_] = ScalaEthCall(new EthCall(details.getTxHash, futureResult), this )
 
-  override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): ScalaEthPayableCall[_] = ScalaEthPayableCall(new EthPayableCall(smartContract, method, arguments), scalaFutureConverter)
+  override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): ScalaEthPayableCall[_] = ScalaEthPayableCall(new EthPayableCall(smartContract, method, arguments), this)
 
   override def isFutureTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthCall[_]].equals(cls)
 }

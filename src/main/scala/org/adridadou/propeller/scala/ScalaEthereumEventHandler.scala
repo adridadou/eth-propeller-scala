@@ -1,6 +1,7 @@
 package org.adridadou.propeller.scala
 
-import org.adridadou.ethereum.propeller.event.{BlockInfo, EthereumEventHandler, TransactionInfo}
+import org.adridadou.ethereum.propeller.event.{BlockInfo, EthereumEventHandler}
+import org.adridadou.ethereum.propeller.values.TransactionInfo
 import rx.lang.scala.Observable
 
 import scala.concurrent.Future
