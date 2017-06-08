@@ -27,16 +27,16 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def findEventDefinition[T](abi: EthAbi, eventName: String)(implicit tag: ClassTag[T]): Option[SolidityEvent[T]] = facade.findEventDefinition(abi,eventName, tag.runtimeClass.asInstanceOf[Class[T]]).asScala
   def events():ScalaEthereumEventHandler = ScalaEthereumEventHandler(facade.events(), converter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
+  def observeEventsWIthInfo[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[EventInfo[T]] = facade.observeEventsWithInfo(eventDefiniton, address)
+
   def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode))
-  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = {
-    facade.getEventsAtBlock(number, eventDefinition, address).asScala
-  }
-  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = {
-    facade.getEventsAtBlock(hash, eventDefinition, address).asScala
-  }
-  def getEventsAtTransaction[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = {
-    facade.getEventsAtTransaction(hash, eventDefinition, address).asScala
-  }
+  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = facade.getEventsAtBlock(number, eventDefinition, address).asScala
+  def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = facade.getEventsAtBlock(hash, eventDefinition, address).asScala
+  def getEventsAtTransaction[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = facade.getEventsAtTransaction(hash, eventDefinition, address).asScala
+  def getEventsAtBlockWithInfo[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[EventInfo[T]] = facade.getEventsAtBlockWithInfo(number, eventDefinition, address).asScala
+  def getEventsAtBlockWithInfo[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[EventInfo[T]] = facade.getEventsAtBlockWithInfo(hash, eventDefinition, address).asScala
+  def getEventsAtTransactionWithInfo[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[EventInfo[T]] = facade.getEventsAtTransactionWithInfo(hash, eventDefinition, address).asScala
+
   def getTransactionInfo(hash:EthHash):TransactionInfo = facade.getTransactionInfo(hash)
   def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
