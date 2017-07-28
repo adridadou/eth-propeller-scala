@@ -43,7 +43,7 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def getEventsAtBlockWithInfo[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[EventInfo[T]] = facade.getEventsAtBlockWithInfo(hash, eventDefinition, address).asScala
   def getEventsAtTransactionWithInfo[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[EventInfo[T]] = facade.getEventsAtTransactionWithInfo(hash, eventDefinition, address).asScala
 
-  def getTransactionInfo(hash:EthHash):TransactionInfo = facade.getTransactionInfo(hash)
+  def getTransactionInfo(hash:EthHash):Option[TransactionInfo] = facade.getTransactionInfo(hash).asScala
   def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
   def publishMetadataToSwarm(contract: SolidityContractDetails): SwarmHash = facade.publishMetadataToSwarm(contract)
