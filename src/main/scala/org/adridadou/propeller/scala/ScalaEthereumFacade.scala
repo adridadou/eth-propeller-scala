@@ -5,6 +5,7 @@ import org.adridadou.ethereum.propeller.solidity.converters.SolidityTypeGroup
 import org.adridadou.ethereum.propeller.solidity.{SolidityContractDetails, SolidityEvent}
 import org.adridadou.ethereum.propeller.swarm.SwarmHash
 import org.adridadou.ethereum.propeller.values._
+import org.adridadou.propeller.scala.decoders.ScalaNumberDecoder
 import org.adridadou.propeller.scala.encoders.ScalaNumberEncoder
 import rx.lang.scala.Observable
 
@@ -72,6 +73,7 @@ object ScalaEthereumFacade {
     facade.addVoidType(classOf[Unit])
     //handle conversion of BigInt and scala BigDecimal
     facade.addEncoder(SolidityTypeGroup.Number, new ScalaNumberEncoder)
+    facade.addDecoder(SolidityTypeGroup.Number, new ScalaNumberDecoder)
     new ScalaEthereumFacade(facade, converter)
   }
 }
