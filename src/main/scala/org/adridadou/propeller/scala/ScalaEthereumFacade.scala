@@ -2,7 +2,7 @@ package org.adridadou.propeller.scala
 
 import org.adridadou.ethereum.propeller.EthereumFacade
 import org.adridadou.ethereum.propeller.solidity.converters.SolidityTypeGroup
-import org.adridadou.ethereum.propeller.solidity.{SolidityContractDetails, SolidityEvent}
+import org.adridadou.ethereum.propeller.solidity.{SolidityContractDetails, SolidityEvent, SolidityType}
 import org.adridadou.ethereum.propeller.swarm.SwarmHash
 import org.adridadou.ethereum.propeller.values._
 import org.adridadou.propeller.scala.decoders.ScalaNumberDecoder
@@ -63,6 +63,10 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
 
   def getMetadata(swarmMetadaLink: SwarmMetadaLink): SmartContractMetadata = facade.getMetadata(swarmMetadaLink)
 
+  def decode[T](data:EthData, solidityType:SolidityType)(implicit classTag: ClassTag[T]): T = facade.decode[T](data, solidityType, classTag.runtimeClass.asInstanceOf[Class[T]])
+  def decode[T](index:Int, data:EthData, solidityType:SolidityType)(implicit classTag: ClassTag[T]): T = facade.decode[T](index, data, solidityType, classTag.runtimeClass.asInstanceOf[Class[T]])
+
+  def encode(arg:Any, solidityType: SolidityType): EthData = facade.encode(arg, solidityType)
 }
 
 object ScalaEthereumFacade {
