@@ -13,7 +13,7 @@ import scala.compat.java8.OptionConverters._
 import rx.lang.scala.JavaConversions._
 
 import scala.collection.JavaConverters._
-import scala.concurrent.Future
+import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
 import scala.runtime.BoxedUnit
 
@@ -50,7 +50,10 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def publishContractWithValue(contract: SolidityContractDetails, account: EthAccount, value:EthValue, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContractWithValue(contract, account, value, constructorArgs:_*))
   def publishContract(contract: SolidityContractDetails, account: EthAccount, constructorArgs: AnyRef*): Future[EthAddress] = converter.convert(facade.publishContract(contract, account, constructorArgs:_*))
   def publishMetadataToSwarm(contract: SolidityContractDetails): SwarmHash = facade.publishMetadataToSwarm(contract)
-  def sendEther(fromAccount: EthAccount, to: EthAddress, value: EthValue): Future[EthExecutionResult] = converter.convert(facade.sendEther(fromAccount, to, value))
+  def sendEther(fromAccount: EthAccount, to: EthAddress, value: EthValue)(implicit ec:ExecutionContext): Future[ScalaCallDetails] = converter.convert(facade.sendEther(fromAccount, to, value))
+    .map(details => {
+      ScalaCallDetails(result = converter.convert(details.getResult), txHash = details.getTxHash)
+    })
 
   def addressExists(address: EthAddress): Boolean = facade.addressExists(address)
 
