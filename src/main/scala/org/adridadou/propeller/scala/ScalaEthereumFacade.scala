@@ -59,6 +59,8 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
       ScalaCallDetails(result = converter.convert(details.getResult), txHash = details.getTxHash)
     })
 
+  def estimateGas(value: EthValue, data: EthData, account: EthAccount, address: EthAddress): GasUsage = facade.estimateGas(value, data, account, address)
+
   def addressExists(address: EthAddress): Boolean = facade.addressExists(address)
 
   def getBalance(addr: EthAddress): EthValue = facade.getBalance(addr)
