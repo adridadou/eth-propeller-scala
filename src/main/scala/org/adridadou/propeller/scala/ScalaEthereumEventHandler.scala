@@ -1,11 +1,10 @@
 package org.adridadou.propeller.scala
 
+import io.reactivex.Observable
 import org.adridadou.ethereum.propeller.event.{BlockInfo, EthereumEventHandler}
 import org.adridadou.ethereum.propeller.values.TransactionInfo
-import rx.lang.scala.Observable
 
 import scala.concurrent.Future
-import rx.lang.scala.JavaConversions._
 
 /**
   * Created by davidroon on 18.04.17.
