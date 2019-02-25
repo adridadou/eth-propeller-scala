@@ -1,5 +1,6 @@
 package org.adridadou.propeller.scala
 
+import io.reactivex.Observable
 import org.adridadou.ethereum.propeller.EthereumFacade
 import org.adridadou.ethereum.propeller.solidity.converters.SolidityTypeGroup
 import org.adridadou.ethereum.propeller.solidity.{SolidityContractDetails, SolidityEvent, SolidityType}
@@ -7,11 +8,8 @@ import org.adridadou.ethereum.propeller.swarm.SwarmHash
 import org.adridadou.ethereum.propeller.values._
 import org.adridadou.propeller.scala.decoders.ScalaNumberDecoder
 import org.adridadou.propeller.scala.encoders.ScalaNumberEncoder
-import rx.lang.scala.Observable
 
 import scala.compat.java8.OptionConverters._
-import rx.lang.scala.JavaConversions._
-
 import scala.collection.JavaConverters._
 import scala.concurrent.{ExecutionContext, Future}
 import scala.reflect.ClassTag
