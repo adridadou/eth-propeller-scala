@@ -32,9 +32,18 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
 
   def findEventDefinition[T](contract: SolidityContractDetails, eventName: String)(implicit tag: ClassTag[T]): Option[SolidityEvent[T]] = facade.findEventDefinition(contract,eventName, tag.runtimeClass.asInstanceOf[Class[T]]).asScala
   def findEventDefinition[T](abi: EthAbi, eventName: String)(implicit tag: ClassTag[T]): Option[SolidityEvent[T]] = facade.findEventDefinition(abi,eventName, tag.runtimeClass.asInstanceOf[Class[T]]).asScala
+
+  def findEventDefinitionForParameters(contract: SolidityContractDetails, eventName: String, classParameters:Seq[Class[_]]): Option[ScalaRawSolidityEvent] = facade
+    .findEventDefinitionForParameters(contract,eventName, classParameters.asJava).asScala
+      .map(raw => ScalaRawSolidityEvent(raw.getDescription, raw.getDecoders.asScala.map(_.asScala), classParameters))
+
+  def findEventDefinitionForParameters(abi: EthAbi, eventName: String, classParameters:Seq[Class[_]]): Option[ScalaRawSolidityEvent] = facade
+    .findEventDefinitionForParametersByAbi(abi,eventName, classParameters.asJava).asScala
+    .map(raw => ScalaRawSolidityEvent(raw.getDescription, raw.getDecoders.asScala.map(_.asScala), classParameters))
+
   def events():ScalaEthereumEventHandler = ScalaEthereumEventHandler(facade.events(), converter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
-  def observeEventsWIthInfo[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[EventInfo[T]] = facade.observeEventsWithInfo(eventDefiniton, address)
+  def observeEventsWithInfo[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[EventInfo[T]] = facade.observeEventsWithInfo(eventDefiniton, address)
 
   def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode))
   def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = facade.getEventsAtBlock(number, eventDefinition, address).asScala
