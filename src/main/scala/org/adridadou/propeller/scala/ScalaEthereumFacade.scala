@@ -38,6 +38,7 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def observeEvents[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[T] = facade.observeEvents(eventDefiniton, address)
   def observeEventsWIthInfo[T](eventDefiniton: SolidityEvent[T], address: EthAddress): Observable[EventInfo[T]] = facade.observeEventsWithInfo(eventDefiniton, address)
 
+  def compile(solidityCode: SoliditySourceFile):SCompilationResult = SCompilationResult(facade.compile(solidityCode, Optional.empty()))
   def compile(solidityCode: SoliditySourceFile, evmVersion: Optional[EvmVersion]):SCompilationResult = SCompilationResult(facade.compile(solidityCode, evmVersion))
   def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, number:Long):Seq[T] = facade.getEventsAtBlock(number, eventDefinition, address).asScala
   def getEventsAtBlock[T](eventDefinition:SolidityEvent[T], address:EthAddress, hash:EthHash):Seq[T] = facade.getEventsAtBlock(hash, eventDefinition, address).asScala
