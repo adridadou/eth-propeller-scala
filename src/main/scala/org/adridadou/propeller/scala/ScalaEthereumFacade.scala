@@ -83,6 +83,8 @@ class ScalaEthereumFacade(facade:EthereumFacade, converter:ScalaFutureConverter)
   def decode[T](index:Int, data:EthData, solidityType:SolidityType)(implicit classTag: ClassTag[T]): T = facade.decode[T](index, data, solidityType, classTag.runtimeClass.asInstanceOf[Class[T]])
 
   def encode(arg:Any, solidityType: SolidityType): EthData = facade.encode(arg, solidityType)
+
+  def getPendingTransactions(address:EthAddress):Set[EthHash] = facade.getPendingTransactions(address).asScala.toSet
 }
 
 object ScalaEthereumFacade {
