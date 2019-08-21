@@ -99,6 +99,7 @@ object ScalaEthereumFacade {
     //handle conversion of BigInt and scala BigDecimal
     facade.addEncoder(SolidityTypeGroup.Number, new ScalaNumberEncoder)
     facade.addDecoder(SolidityTypeGroup.Number, new ScalaNumberDecoder)
+
     new ScalaEthereumFacade(facade, converter)
   }
 }

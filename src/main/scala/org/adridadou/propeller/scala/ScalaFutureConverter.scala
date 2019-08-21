@@ -26,7 +26,8 @@ class ScalaFutureConverter() extends FutureConverter{
 
   override def isPayableTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthPayableCall[_]].equals(cls)
 
-  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): ScalaEthCall[_] = ScalaEthCall(new EthCall(details.getTxHash, futureResult), this )
+  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): EthCall[_] =
+		new EthCall(details.getNonce, details.getGasEstimate, details.getTxHash, futureResult)
 
   override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): ScalaEthPayableCall[_] = ScalaEthPayableCall(new EthPayableCall(smartContract, method, arguments), this)
 
