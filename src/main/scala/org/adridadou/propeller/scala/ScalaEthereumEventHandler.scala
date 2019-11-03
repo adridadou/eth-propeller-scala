@@ -18,5 +18,4 @@ case class ScalaEthereumEventHandler(handler:EthereumEventHandler, converter:Sca
   def observeBlocks: Observable[BlockInfo] = handler.observeBlocks()
 
   def observeTransactions: Observable[TransactionInfo] = handler.observeTransactions()
-
 }
