@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.adridadou.ethereum.propeller.SmartContract
 import org.adridadou.ethereum.propeller.converters.future.FutureConverter
-import org.adridadou.ethereum.propeller.values.{CallDetails, EthCall, EthPayableCall, Payable}
+import org.adridadou.ethereum.propeller.values.{CallDetails, EthCall, EthPayableCall, GasUsage, Payable}
 
 import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
@@ -26,7 +26,7 @@ class ScalaFutureConverter() extends FutureConverter{
 
   override def isPayableTypeWithDetails(cls: Class[_]): Boolean = classOf[ScalaEthPayableCall[_]].equals(cls)
 
-  override def convertWithDetails(details: CallDetails, futureResult: CompletableFuture[_]): EthCall[_] =
+  override def convertWithDetails[T](details: CallDetails, futureResult: CompletableFuture[T]): EthCall[T] =
 		new EthCall(details.getNonce, details.getGasEstimate, details.getTxHash, futureResult)
 
   override def getPayableWithDetails(smartContract: SmartContract, arguments: Array[AnyRef], method: Method): ScalaEthPayableCall[_] = ScalaEthPayableCall(new EthPayableCall(smartContract, method, arguments), this)
