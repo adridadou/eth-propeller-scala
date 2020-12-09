@@ -5,7 +5,7 @@ import java.util.concurrent.CompletableFuture
 
 import org.adridadou.ethereum.propeller.SmartContract
 import org.adridadou.ethereum.propeller.converters.future.FutureConverter
-import org.adridadou.ethereum.propeller.values.{CallDetails, EthCall, EthPayableCall, GasUsage, Payable}
+import org.adridadou.ethereum.propeller.values.{CallDetails, EthCall, EthPayableCall, Payable}
 
 import scala.compat.java8.FutureConverters
 import scala.concurrent.Future
