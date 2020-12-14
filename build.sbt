@@ -19,7 +19,7 @@ resolvers ++= Seq(
 // Change this to another test framework if you prefer
 libraryDependencies ++= Seq(
   "com.github.jnr" % "jffi" % "1.2.17",
-  "org.adridadou" % "eth-propeller-core" % "0.57",
+  "org.adridadou" % "eth-propeller-core" % "0.58",
   "org.scala-lang.modules" %% "scala-java8-compat" % "0.8.0",
   //Test libs
   "org.scalatest" %% "scalatest" % "3.2.0-SNAP5" % "test",
